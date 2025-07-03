@@ -1,0 +1,2 @@
+class BaseSyncProperty:
+    pass
