@@ -187,12 +187,12 @@ class SekaiUdp(asyncio.DatagramProtocol):
 
         if seq == -1:
             seq = self._seq
-        seq_header = int.to_bytes(seq, 1)
+        seq_header = int.to_bytes(seq, 2, byteorder="little")
 
         if remove_sync and seq == 0:    # syn packet confict with rsend when start connection (seq = 0)
             self._client_ack.discard(0)
 
-        packet = seq_header + b"\x00" + flag_header + data
+        packet = seq_header + flag_header + data
 
         if self.transport.is_closing():
             raise ConnectionError("Udp client closed.")
